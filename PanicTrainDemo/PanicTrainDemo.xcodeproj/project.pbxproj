@@ -292,6 +292,7 @@
 				529898EC1CD2086F004C40F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
