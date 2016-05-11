@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func didMoveToView(view: SKView)
     {
         // setup physics
-        self.physicsWorld.gravity = CGVectorMake(0.0, -2)
+        self.physicsWorld.gravity = CGVectorMake(0.0, -3)
         
         moving = SKNode()
         self.addChild(moving)
@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         createGround()
         
         hero = SKSpriteNode(texture: heroAtlas.textureNamed("Run_01"))
-        hero.position = CGPointMake(frame.width / 2.5, frame.height / 2.75)
+        hero.position = CGPointMake(frame.width / 8, frame.height / 2)
         
         // Enable physics around our hero using a circle to draw our radius
         hero.physicsBody = SKPhysicsBody(circleOfRadius: hero.size.height / 2)
