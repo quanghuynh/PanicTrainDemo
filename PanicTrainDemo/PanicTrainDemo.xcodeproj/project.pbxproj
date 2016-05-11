@@ -14,6 +14,8 @@
 		529898E11CD2086F004C40F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529898DF1CD2086F004C40F3 /* Main.storyboard */; };
 		529898E31CD2086F004C40F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 529898E21CD2086F004C40F3 /* Assets.xcassets */; };
 		529898E61CD2086F004C40F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529898E41CD2086F004C40F3 /* LaunchScreen.storyboard */; };
+		529898EE1CE1CA0C004C40F3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529898ED1CE1CA0C004C40F3 /* Player.swift */; };
+		529898F01CE31750004C40F3 /* Player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 529898EF1CE31750004C40F3 /* Player.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		529898E21CD2086F004C40F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		529898E51CD2086F004C40F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		529898E71CD2086F004C40F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		529898ED1CE1CA0C004C40F3 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		529898EF1CE31750004C40F3 /* Player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Player.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,7 @@
 		529898D61CD2086F004C40F3 /* PanicTrainDemo */ = {
 			isa = PBXGroup;
 			children = (
+				529898EF1CE31750004C40F3 /* Player.atlas */,
 				529898D71CD2086F004C40F3 /* AppDelegate.swift */,
 				529898D91CD2086F004C40F3 /* GameScene.sks */,
 				529898DB1CD2086F004C40F3 /* GameScene.swift */,
@@ -66,6 +71,7 @@
 				529898E21CD2086F004C40F3 /* Assets.xcassets */,
 				529898E41CD2086F004C40F3 /* LaunchScreen.storyboard */,
 				529898E71CD2086F004C40F3 /* Info.plist */,
+				529898ED1CE1CA0C004C40F3 /* Player.swift */,
 			);
 			path = PanicTrainDemo;
 			sourceTree = "<group>";
@@ -130,6 +136,7 @@
 			files = (
 				529898DA1CD2086F004C40F3 /* GameScene.sks in Resources */,
 				529898E61CD2086F004C40F3 /* LaunchScreen.storyboard in Resources */,
+				529898F01CE31750004C40F3 /* Player.atlas in Resources */,
 				529898E31CD2086F004C40F3 /* Assets.xcassets in Resources */,
 				529898E11CD2086F004C40F3 /* Main.storyboard in Resources */,
 			);
@@ -142,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529898EE1CE1CA0C004C40F3 /* Player.swift in Sources */,
 				529898DC1CD2086F004C40F3 /* GameScene.swift in Sources */,
 				529898DE1CD2086F004C40F3 /* GameViewController.swift in Sources */,
 				529898D81CD2086F004C40F3 /* AppDelegate.swift in Sources */,

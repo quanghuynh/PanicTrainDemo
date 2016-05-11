@@ -8,103 +8,102 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate
+{
+    // Our main scene. Everything is added to this for the playable game
+    var moving: SKNode!
     
-    var player: SKSpriteNode!
+    // Our running man! Defaults to a stand still position
+    let heroAtlas = SKTextureAtlas(named: "Player.atlas")
+    var hero: SKSpriteNode!
     
-    override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        createPlayer()
+    override func didMoveToView(view: SKView)
+    {
+        // setup physics
+        self.physicsWorld.gravity = CGVectorMake(0.0, -2)
+        
+        moving = SKNode()
+        self.addChild(moving)
+        
         createSky()
-        createBackground()
         createGround()
+        
+        hero = SKSpriteNode(texture: heroAtlas.textureNamed("Run_01"))
+        hero.position = CGPointMake(frame.width / 2.5, frame.height / 2.75)
+        
+        // Enable physics around our hero using a circle to draw our radius
+        hero.physicsBody = SKPhysicsBody(circleOfRadius: hero.size.height / 2)
+        hero.physicsBody!.dynamic = true
+        
+        self.addChild(hero)
+        runForward()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
-      
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
-    
-    func createPlayer() {
-        let playerTexture = SKTexture(imageNamed: "player-1")
-        player = SKSpriteNode(texture: playerTexture)
-        player.zPosition = 10
-        player.position = CGPoint(x: frame.width / 6, y: frame.height * 0.5)
-        
-        addChild(player)
-        
-        let frame2 = SKTexture(imageNamed: "player-2")
-        let frame3 = SKTexture(imageNamed: "player-3")
-        let animation = SKAction.animateWithTextures([playerTexture, frame2, frame3, frame2], timePerFrame: 0.01)
-        let runForever = SKAction.repeatActionForever(animation)
-        
-        player.runAction(runForever)
-    }
-    
-    func createSky() {
-        let topSky = SKSpriteNode(color: UIColor(hue: 0.55, saturation: 0.14, brightness: 0.97, alpha: 1), size: CGSize(width: frame.width, height: frame.height * 0.67))
-        topSky.anchorPoint = CGPoint(x: 0.5, y: 1)
-        
-        let bottomSky = SKSpriteNode(color: UIColor(hue: 0.55, saturation: 0.16, brightness: 0.96, alpha: 1), size: CGSize(width: frame.width, height: frame.height * 0.33))
-        topSky.anchorPoint = CGPoint(x: 0.5, y: 1)
-        
-        topSky.position = CGPoint(x: frame.midX, y: frame.height)
-        bottomSky.position = CGPoint(x: frame.midX, y: bottomSky.frame.height / 2)
-        
-        addChild(topSky)
-        addChild(bottomSky)
-        
-        bottomSky.zPosition = -40
-        topSky.zPosition = -40
-    }
-    
-    func createBackground() {
-        let backgroundTexture = SKTexture(imageNamed: "background")
-        
-        for i in 0 ... 1 {
-            let background = SKSpriteNode(texture: backgroundTexture)
-            background.zPosition = -30
-            background.anchorPoint = CGPointZero
-            background.position = CGPoint(x: (backgroundTexture.size().width * CGFloat(i)) - CGFloat(1 * i), y: 100)
-            addChild(background)
+        for touch: AnyObject in touches
+        {
+            // Do jump
+            let hero_jump_anim = SKAction.animateWithTextures([
+                heroAtlas.textureNamed("Jump_01"),
+                heroAtlas.textureNamed("Jump_02"),
+                heroAtlas.textureNamed("Jump_03"),
+                heroAtlas.textureNamed("Jump_04"),
+                heroAtlas.textureNamed("Jump_05"),
+                heroAtlas.textureNamed("Jump_06")
+                ], timePerFrame: 0.25)
             
-            let moveLeft = SKAction.moveByX(-backgroundTexture.size().width, y: 0, duration: 20)
-            let moveReset = SKAction.moveByX(backgroundTexture.size().width, y: 0, duration: 0)
-            let moveLoop = SKAction.sequence([moveLeft, moveReset])
-            let moveForever = SKAction.repeatActionForever(moveLoop)
+            let jump = SKAction.repeatAction(hero_jump_anim, count: 1)
             
-            background.runAction(moveForever)
+            if (hero.actionForKey("jumping") == nil)
+            {
+                hero.runAction(jump, withKey: "jumping")
+                hero.physicsBody!.velocity = CGVectorMake(0, 0)
+                hero.physicsBody!.applyImpulse(CGVectorMake(0, 100))
+            }
         }
     }
     
-    func createGround() {
-        let groundTexture = SKTexture(imageNamed: "ground")
+    func runForward()
+    {
+        let hero_run_anim = SKAction.animateWithTextures([
+            heroAtlas.textureNamed("Run_01"),
+            heroAtlas.textureNamed("Run_02"),
+            heroAtlas.textureNamed("Run_03"),
+            heroAtlas.textureNamed("Run_04"),
+            heroAtlas.textureNamed("Run_05"),
+            heroAtlas.textureNamed("Run_06")
+            ], timePerFrame: 0.1)
         
-        for i in 0 ... 1 {
-            let ground = SKSpriteNode(texture: groundTexture)
-            ground.zPosition = -10
-            ground.position = CGPoint(x: (groundTexture.size().width / 2.0 + (groundTexture.size().width * CGFloat(i))), y: groundTexture.size().height / 2)
-            
-            addChild(ground)
-            
-            let moveLeft = SKAction.moveByX(-groundTexture.size().width, y: 0, duration: 5)
-            let moveReset = SKAction.moveByX(groundTexture.size().width, y: 0, duration: 0)
-            let moveLoop = SKAction.sequence([moveLeft, moveReset])
-            let moveForever = SKAction.repeatActionForever(moveLoop)
-            
-            ground.runAction(moveForever)
+        let run = SKAction.repeatActionForever(hero_run_anim)
+        
+        hero.runAction(run, withKey: "running")
+    }
+    
+    func createGround()
+    {
+        let groundTexture = SKTexture(imageNamed: "Ground")
+        groundTexture.filteringMode = .Nearest
+        
+        let moveGroundSprite = SKAction.moveByX(-groundTexture.size().width * 2.0, y: 0, duration: NSTimeInterval(0.01 * groundTexture.size().width * 2.0))
+        let resetGroundSprite = SKAction.moveByX(groundTexture.size().width * 2.0, y: 0, duration: 0.0)
+        let moveGroundSpritesForever = SKAction.repeatActionForever(SKAction.sequence([moveGroundSprite, resetGroundSprite]))
+        
+        for var i:CGFloat = 0; i < 2.0 + self.frame.size.width / (groundTexture.size().width * 2.0); ++i
+        {
+            let sprite = SKSpriteNode(texture: groundTexture)
+            sprite.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: groundTexture.size().width, height: groundTexture.size().height))
+            sprite.physicsBody!.dynamic = false
+            sprite.position = CGPointMake(i * sprite.size.width, sprite.size.height / 2.0)
+            sprite.runAction(moveGroundSpritesForever)
+            moving.addChild(sprite)
         }
     }
+    
+    func createSky()
+    {
+        let skyTexture = SKSpriteNode(color: UIColor(red: 71/255, green: 140/255, blue: 183/255, alpha: 1.0), size: frame.size)
+        skyTexture.position = CGPointMake(frame.width / 2, frame.height / 2)
+        moving.addChild(skyTexture)
+    }
+    
 }
